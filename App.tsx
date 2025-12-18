@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
-import { Trophy, RotateCcw, Medal, X, RefreshCw, Wifi, Clock, Calendar, MapPin, Users, Activity, ChevronDown, ChevronUp, ArrowRight } from 'lucide-react';
+import { Trophy, RotateCcw, Medal, X, RefreshCw, Wifi, Clock, Calendar, MapPin, Users, Activity, ChevronDown, ChevronUp, ArrowRight, Heart, Github, ExternalLink, Code2 } from 'lucide-react';
 import { Match, TeamStats, Team, Group } from './types';
 import { calculateGroupStats, getQualifiedTeams, getKnockoutFixtures, assignMatchMetadata } from './utils';
 import { fetchTournamentData, fetchTeamPlayers } from './api';
@@ -52,6 +52,10 @@ const Navbar = ({ reset, isOnline }: { reset: () => void, isOnline: boolean }) =
         </div>
       </div>
       <div className="flex flex-wrap items-center justify-center gap-3">
+        <div className="hidden lg:flex items-center gap-2 mr-4 bg-white/5 px-3 py-1.5 rounded-full border border-white/10">
+          <Code2 className="w-3 h-3 text-maroc-gold" />
+          <span className="text-[9px] font-black tracking-tighter uppercase opacity-80">Dev by <span className="text-white">@Amineshwarz</span></span>
+        </div>
         <Countdown />
         <button onClick={reset} className="group flex items-center gap-2 bg-white/10 hover:bg-white/20 px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all border border-white/10">
           <RotateCcw className="w-3.5 h-3.5 group-hover:-rotate-180 transition-transform duration-500" /> 
@@ -62,6 +66,42 @@ const Navbar = ({ reset, isOnline }: { reset: () => void, isOnline: boolean }) =
   </nav>
 );
 
+const Footer = () => (
+  <footer className="mt-20 border-t border-gray-200 bg-white/50 backdrop-blur-sm py-12">
+    <div className="max-w-7xl mx-auto px-4 flex flex-col items-center">
+      <div className="flex items-center gap-3 mb-6">
+        <div className="w-8 h-px bg-gradient-to-r from-transparent to-gray-300"></div>
+        <Trophy className="w-5 h-5 text-maroc-gold opacity-50" />
+        <div className="w-8 h-px bg-gradient-to-l from-transparent to-gray-300"></div>
+      </div>
+      
+      <p className="flex items-center gap-2 text-gray-400 text-xs font-bold uppercase tracking-[0.2em] mb-4">
+        Conçu avec <Heart className="w-3 h-3 text-maroc-red fill-maroc-red" /> au Maroc
+      </p>
+      
+      <a 
+        href="https://github.com/amineshwarz" 
+        target="_blank" 
+        rel="noopener noreferrer"
+        className="group relative flex flex-col items-center p-6 rounded-3xl transition-all hover:bg-white hover:shadow-xl border border-transparent hover:border-gray-100"
+      >
+        <span className="text-[10px] text-gray-400 font-black uppercase tracking-widest mb-1 group-hover:text-maroc-green transition-colors">Propulsé par</span>
+        <span className="text-2xl font-display font-black text-maroc-dark tracking-tighter flex items-center gap-2">
+          Amineshwarz <ExternalLink className="w-4 h-4 text-maroc-gold opacity-0 group-hover:opacity-100 transition-all translate-x-[-10px] group-hover:translate-x-0" />
+        </span>
+        <div className="mt-4 flex gap-4 opacity-40 group-hover:opacity-100 transition-opacity">
+          <Github className="w-5 h-5" />
+        </div>
+      </a>
+      
+      <div className="mt-8 text-[9px] font-bold text-gray-300 uppercase tracking-tighter text-center">
+        © 2025 CAN Simulator Maroc - Version 1.0.0-Beta<br/>
+        Données fournies par TheSportsDB & Gist API
+      </div>
+    </div>
+  </footer>
+);
+
 const MatchCard = ({ match, onChange, teams, onTeamClick, variant = 'group' }: { match: Match, onChange: any, teams: Record<string, Team>, onTeamClick: any, variant?: 'group' | 'knockout' }) => {
   const home = match.homeTeamId ? teams[match.homeTeamId] : null;
   const away = match.awayTeamId ? teams[match.awayTeamId] : null;
@@ -70,7 +110,6 @@ const MatchCard = ({ match, onChange, teams, onTeamClick, variant = 'group' }: {
 
   return (
     <div className={`relative overflow-hidden transition-all duration-300 flex flex-col bg-white rounded-xl shadow-sm border border-gray-100 hover:shadow-md ${variant === 'knockout' ? 'border-l-4 border-maroc-red' : ''}`}>
-      {/* Top Info Bar: Date & Time */}
       <div className="flex justify-between items-center bg-gray-50/80 px-3 py-2 border-b border-gray-100 text-[9px] text-gray-500 font-bold uppercase tracking-widest">
         <div className="flex items-center gap-1.5">
           <Calendar className="w-3 h-3 text-maroc-red" /> 
@@ -100,7 +139,6 @@ const MatchCard = ({ match, onChange, teams, onTeamClick, variant = 'group' }: {
         </div>
       </div>
 
-      {/* Bottom Info Bar: Stadium / Venue */}
       <div className="px-3 py-1.5 bg-gray-50/30 border-t border-gray-100/50 flex items-center gap-1.5 text-[8px] font-bold text-gray-400 uppercase tracking-tight">
         <MapPin className="w-3 h-3 text-maroc-green shrink-0" />
         <span className="truncate">{match.venue || 'Maroc 2025'}</span>
@@ -263,7 +301,7 @@ export default function App() {
   );
 
   return (
-    <div className="min-h-screen pb-12 bg-maroc-sand font-sans">
+    <div className="min-h-screen bg-maroc-sand font-sans">
       <Navbar isOnline={true} reset={() => { if(confirm('Réinitialiser les scores ?')) init(); }} />
       <main className="max-w-7xl mx-auto px-4 pt-10">
         <div className="text-center mb-10">
@@ -322,6 +360,9 @@ export default function App() {
           </div>
         )}
       </main>
+      
+      <Footer />
+
       <TeamDetailModal 
         isOpen={!!selectedTeamId} 
         onClose={() => setSelectedTeamId(null)} 
