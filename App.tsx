@@ -42,8 +42,12 @@ const Navbar = ({ reset, isOnline }: { reset: () => void, isOnline: boolean }) =
   <nav className="bg-gradient-to-r from-maroc-red to-maroc-green text-white p-4 sticky top-0 z-50 shadow-2xl border-b-4 border-maroc-gold">
     <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
       <div className="flex items-center gap-3">
-        <div className="bg-white/10 p-2.5 rounded-xl backdrop-blur-md border border-white/20 relative shadow-lg">
-          <Trophy className="w-6 h-6 text-maroc-gold drop-shadow-md" />
+        <div className="bg-white p-1 rounded-xl shadow-lg border-2 border-maroc-gold relative group">
+          <img 
+            src="https://media.api-sports.io/football/leagues/6.png" 
+            alt="CAN 2025 Logo" 
+            className="w-10 h-10 object-contain group-hover:scale-110 transition-transform"
+          />
           {isOnline && <span className="absolute -top-1 -right-1 w-3 h-3 bg-green-400 border-2 border-maroc-red rounded-full animate-pulse shadow-[0_0_10px_#4ade80]"></span>}
         </div>
         <div>
